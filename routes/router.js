@@ -1,6 +1,6 @@
 import express from "express"
 import bodyParser from "body-parser"
-import { busquedaOfertas, ingresarOferta, nuevoUsuario, obtenerCategorias, obtenerUsuario, ofertasSugeridas } from "../src/controllers.js";
+import { busquedaOfertas, ingresarOferta, nuevoUsuario, obtenerCategorias, obtenerUsuario, ofertasSugeridas, infoInteraccionUsuarios } from "../src/controllers.js";
 import { validarToken } from "../src/token.js";
 import { sequelize } from "../src/models.js";
 
@@ -73,6 +73,16 @@ router.get("/v1/ofertas-sugeridas", async(req, res) =>{
         respuesta = await ofertasSugeridas()
         res.json(respuesta)
     }catch(error){
+        res.json([])
+    }
+})
+
+router.get("/v1/datos-ofertapp", async(req, res) =>{
+    try{
+        let respuesta = await infoInteraccionUsuarios()
+        res.json(respuesta)
+    }catch(error){
+        console.log(error)
         res.json([])
     }
 })

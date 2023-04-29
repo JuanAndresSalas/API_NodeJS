@@ -1,13 +1,15 @@
+//Import variables y funciones
 import dotenv from "dotenv"
 import { tablaUsuario, tablaCategoria, tablaSubcategoria, tablaOferta, sequelize } from "./models.js";
 import { compararContraseña } from "./bcrypt.js";
 import { Sequelize } from "sequelize";
 
+//Configuración dotenv
 dotenv.config()
 
-
+//Funciones
 export async function obtenerUsuario(username, password) {
-    
+    //Selección de columnas requeridas para presentar la información solicitada
     try {
         let data = await tablaUsuario.findOne({ where: { correo: username}, attributes: ['idusuario', 'nombre', 'correo', 'apellido','contrasena','admin'] })
         if(data!= null){
@@ -121,4 +123,19 @@ export async function ofertasSugeridas(){
         return []
     }
     
+}
+
+export async function infoInteraccionUsuarios(){
+    //Uso de cláusulas de agrupación de información para obtener datos agregados
+let query =     `SELECT u.idusuario AS id,
+                u.nombre AS nombre,
+                u.apellido AS apellido,
+                u.correo AS correo,
+                COUNT(o.idoferta) AS cantidadOfertas
+                FROM oferta o 
+                JOIN usuarios u on (o.idusuario_usuario = u.idusuario)
+                GROUP BY u.nombre, u.apellido, u.correo
+                ORDER BY cantidadOfertas DESC`
+    let respuesta = sequelize.query(query,{ type: Sequelize.QueryTypes.SELECT })
+    return respuesta
 }
