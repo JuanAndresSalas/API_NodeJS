@@ -1,12 +1,13 @@
 //Import variables y funciones
 import dotenv from "dotenv"
-import { tablaUsuario, tablaCategoria, tablaSubcategoria, tablaOferta, sequelize } from "./models.js";
+import db from "./models.js";
 import { compararContraseña } from "./bcrypt.js";
-import { Sequelize } from "sequelize";
+import Sequelize  from "sequelize";
+const { tablaCategoria, tablaUsuario, tablaSubcategoria, tablaOferta } = db;
 
 //Configuración dotenv
 dotenv.config()
-
+const sequelize = new Sequelize(process.env.CONFIG)
 //Funciones
 export async function obtenerUsuario(username, password) {
     //Selección de columnas requeridas para presentar la información solicitada

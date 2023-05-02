@@ -2,9 +2,11 @@ import express from "express"
 import bodyParser from "body-parser"
 import { busquedaOfertas, ingresarOferta, nuevoUsuario, obtenerCategorias, obtenerUsuario, ofertasSugeridas, infoInteraccionUsuarios } from "../src/controllers.js";
 import { validarToken } from "../src/token.js";
-import { sequelize } from "../src/models.js";
 
-sequelize.sync()
+
+
+
+
 
 const router = express.Router()
 

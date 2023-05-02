@@ -1,9 +1,9 @@
 import express from "express"
-import { sequelize } from "./src/models.js"
+import { Sequelize } from "sequelize";
 import indexRoutes from "./routes/router.js"
 
 const app = express()
-
+const sequelize = new Sequelize(process.env.CONFIG)
 sequelize.sync()
 
 app.use(indexRoutes)
