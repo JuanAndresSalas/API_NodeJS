@@ -53,7 +53,7 @@ async function setupDatabase() {
                 latitud: { type: Sequelize.STRING, allowNull: false },
                 descripcion: { type: Sequelize.STRING, allowNull: false },
                 imagen: {
-                    type: Sequelize.BLOB, allowNull: true, defaultValue: null,
+                    type: Sequelize.STRING, allowNull: true, defaultValue: null,
                     set(value) {
                         if (value === '') {
                             this.setDataValue('imagen', null);
