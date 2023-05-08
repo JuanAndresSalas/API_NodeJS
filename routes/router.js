@@ -1,12 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
-import { busquedaOfertas, ingresarOferta, nuevoUsuario, obtenerCategorias, obtenerUsuario, ofertasSugeridas, infoInteraccionUsuarios } from "../src/controllers.js";
+import { busquedaOfertas, ingresarOferta, nuevoUsuario, obtenerCategorias, obtenerUsuario, ofertasSugeridas, infoInteraccionUsuarios, obtenerOfertasAdmin, borrarOferta } from "../src/controllers.js";
 import { validarToken } from "../src/token.js";
-
-
-
-
-
 
 const router = express.Router()
 
@@ -88,4 +83,28 @@ router.get("/v1/datos-ofertapp", async(req, res) =>{
         res.json([])
     }
 })
+
+router.get("/v1/obtener-ofertas-admin", async(req, res) =>{
+    try {
+        let respuesta = await obtenerOfertasAdmin()
+        res.json(respuesta)
+    } catch (error) {
+        console.log(error)
+        res.json([])
+    }
+})
+
+router.delete("/v1/borrar-oferta-admin", async(req, res) =>{
+    let {id} = req.body
+    try {
+      let respuesta = await borrarOferta(id)
+      res.send(respuesta)
+    } catch (error) {
+      console.log(error)
+      res.send({error: "Error al eliminar oferta"})
+    }
+  });
+  
+
+
 export default router

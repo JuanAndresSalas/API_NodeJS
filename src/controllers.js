@@ -134,9 +134,40 @@ let query =     `SELECT u.idusuario AS id,
                 u.correo AS correo,
                 COUNT(o.idoferta) AS cantidadOfertas
                 FROM oferta o 
-                JOIN usuarios u on (o.idusuario_usuario = u.idusuario)
+                RIGHT JOIN usuarios u on (o.idusuario_usuario = u.idusuario)
+                WHERE u.admin IS NULL
                 GROUP BY u.nombre, u.apellido, u.correo
                 ORDER BY cantidadOfertas DESC`
-    let respuesta = sequelize.query(query,{ type: Sequelize.QueryTypes.SELECT })
+    let respuesta = await sequelize.query(query,{ type: Sequelize.QueryTypes.SELECT })
     return respuesta
 }
+
+export async function obtenerOfertasAdmin(){
+    let query = `SELECT o.idoferta AS id,
+                        o.precio AS precio,
+                        o.lugar AS lugar,
+                        o.longitud AS longitud,
+                        o.latitud AS latitud,
+                        o.descripcion AS descripcion ,
+                        o.imagen AS imagen,
+                        o.idsubcategoria_subcategoria AS subcategoria,
+                        s.nombre AS subcategoria,
+                        c.nombre AS categoria
+                        FROM oferta o 
+                        JOIN subcategoria s ON(o.idsubcategoria_subcategoria = s.idsubcategoria)
+                        JOIN categoria c ON(s.idcategoria_categoria = c.idcategoria)
+                        `
+    let respuesta = await sequelize.query(query,{ type: Sequelize.QueryTypes.SELECT })
+    
+    return respuesta
+}
+
+export async function borrarOferta(id){
+    try {
+      let respuesta = await tablaOferta.destroy({ where: { idoferta: id }})
+      return {mensaje: "Oferta eliminada"}
+    } catch (error) {
+      console.log(error)
+      return {error: "Error al eliminar oferta"}
+    }
+  }
