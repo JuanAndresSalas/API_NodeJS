@@ -137,7 +137,7 @@ let query =     `SELECT u.idusuario AS id,
                 FROM oferta o 
                 RIGHT JOIN usuarios u on (o.idusuario_usuario = u.idusuario)
                 WHERE u.admin IS NULL
-                GROUP BY u.nombre, u.apellido, u.correo n
+                GROUP BY u.nombre, u.apellido, u.correo 
                 ORDER BY cantidadOfertas DESC` //Uso de cláusulas de ordenamiento para presentar la información
     let respuesta = await sequelize.query(query,{ type: Sequelize.QueryTypes.SELECT })
     return respuesta

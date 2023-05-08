@@ -7,4 +7,3 @@
 - 4° Para iniciar la aplicación use el siguiente comando (sin comillas): "npm run api"
 
 **Para fines prácticos de demostración se agregaron los archivos .env**
-
