@@ -106,7 +106,8 @@ export async function busquedaOfertas(busqueda){
 }
 
 export async function ofertasSugeridas(){
-    //Uso se sentencias de ordenamiento
+   
+    //Uso de cláusulas de ordenamiento para presentar la información
     let query = `SELECT precio,
                 lugar,
                 longitud,
@@ -136,13 +137,14 @@ let query =     `SELECT u.idusuario AS id,
                 FROM oferta o 
                 RIGHT JOIN usuarios u on (o.idusuario_usuario = u.idusuario)
                 WHERE u.admin IS NULL
-                GROUP BY u.nombre, u.apellido, u.correo
-                ORDER BY cantidadOfertas DESC`
+                GROUP BY u.nombre, u.apellido, u.correo n
+                ORDER BY cantidadOfertas DESC` //Uso de cláusulas de ordenamiento para presentar la información
     let respuesta = await sequelize.query(query,{ type: Sequelize.QueryTypes.SELECT })
     return respuesta
 }
 
 export async function obtenerOfertasAdmin(){
+    //Uso de JOIN para relacionar la información de distintas tablas
     let query = `SELECT o.idoferta AS id,
                         o.precio AS precio,
                         o.lugar AS lugar,
@@ -163,6 +165,7 @@ export async function obtenerOfertasAdmin(){
 }
 
 export async function borrarOferta(id){
+    //Uso de WHERE para filtrar la información requerida
     try {
       let respuesta = await tablaOferta.destroy({ where: { idoferta: id }})
       return {mensaje: "Oferta eliminada"}
@@ -170,4 +173,4 @@ export async function borrarOferta(id){
       console.log(error)
       return {error: "Error al eliminar oferta"}
     }
-  }
+}
